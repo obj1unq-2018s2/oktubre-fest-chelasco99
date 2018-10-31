@@ -1,0 +1,26 @@
+import carpas.*
+import jarras.*
+import personas.*
+import marcas.*
+
+describe "xx" {
+	var quilmes = new MarcaCervezaRubia(contenidoDeLupulo = 30,paisDeFabricacion = "belgica" ,graduacionDeCerveza = 50)
+	var jarra1 = new JarraDeCerveza(capacidadDeLitros = 10,marca = quilmes)
+	var jarra2 = new JarraDeCerveza(capacidadDeLitros = 30,marca = quilmes)
+	var persona1 = new Persona(peso = 80,jarrasQueCompro = [jarra1],escuchaMusica = false,aguante = 60)
+	var persona2 = new Persona(peso = 50,jarrasQueCompro = [jarra2],escuchaMusica = false,aguante = 60)
+	var persona3 = new PersonaConNacionalidadBelga(peso = 60,jarrasQueCompro = [jarra1,jarra2],escuchaMusica = false,aguante = 60,nacionalidad = "belgica")
+	var carpa1 = new CarpasCerveceras(limiteDeGente = 2,tienenBanda = false,marcaDeCerveza = quilmes,personasEnLaCarpa = [persona1])
+
+
+	
+
+
+
+test "testX" {
+
+	assert.that(persona3.esPatriota("belgica"))
+
+}
+
+}
