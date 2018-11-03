@@ -27,35 +27,45 @@ class Persona {
 		and self.hayGentePar(carpa)	
 	}
 	
+	method hayGentePar(carpa) = true
+	
 	method cumplePreferenciaDeMusica(carpa) = if ( self.escuchaMusica() )  carpa.tienenBanda()
 	                                          else not carpa.tienenBanda()
 	                                          
-	                                          
-	method hayGentePar(carpa) = true //Implementar
-	
-	
-	
-	method puedeEntrarEnUna(carpa) = if ( self.quiereEntrar(carpa) ) carpa.dejarIngresar()
+	                                          			
+	method puedeEntrarEnUna(carpa) = if ( self.quiereEntrar(carpa) ) carpa.dejaIngresar()
 	                                 else {}
 	                                 
-	method entrarEnUna(carpa) = if ( self.quiereEntrar(carpa) ) carpa.dejarIngresar()
+	method entrarEnUna(carpa) { if ( self.quiereEntrar(carpa) )
+	                               if ( carpa.dejaIngresar() )
+	                                   carpa.add(self)
 	                            else self.error ("No puede ingresar")
-	
+                  }	
+
 	method esPatriota(nacionalidad) = self.jarrasQueCompro().all { jarra => jarra.marca().paisDeFabricacion() == nacionalidad  } 
 	
 }
 
 class PersonaConNacionalidadBelga inherits Persona {
 	var property nacionalidad = "Belgica"
- 	override method leGustaEstaCerveza(marca) = marca.contenidoDeLupulo() > 4  
+ 	override method leGustaEstaCerveza(marca) = marca.contenidoDeLupulo() > 4
+ 	
+ 	override method hayGentePar(carpa) = if ( self.nacionalidad() == "Alemania" ) carpa.cantidadDeGenteEnLaCarpa() % 2 == 0
+	                            else {}  
  }
  
  class PersonaConNacionalidadCheca inherits Persona {
  	var property nacionalidad = "Rep.Checa"
  	override method leGustaEstaCerveza(marca) = marca.graduacionDeCerveza() > 8
+ 	
+ 	override method hayGentePar(carpa) = if ( self.nacionalidad() == "Alemania" ) carpa.cantidadDeGenteEnLaCarpa() % 2 == 0
+	                            else {}
  }
  
  class PersonaConNacionalidadAlemana inherits Persona {
  	var property nacionalidad = "Alemania"
  	override method leGustaEstaCerveza(marca) = true 
+ 	
+ 	override method hayGentePar(carpa) = if ( self.nacionalidad() == "Alemania" ) carpa.cantidadDeGenteEnLaCarpa() % 2 == 0
+	                            else {}
  }

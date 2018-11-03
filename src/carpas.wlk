@@ -8,8 +8,9 @@
  	
  	method superaLimiteDeGente() = personasEnLaCarpa.size() + 1 > limiteDeGente
  	
+ 	method cantidadDeGenteEnLaCarpa() = personasEnLaCarpa.size()
  	
-    method dejarIngresar(persona) {
+    method dejaIngresar(persona) {
     	return not self.superaLimiteDeGente() and not persona.estaEbrio()
     }
     
