@@ -36,11 +36,10 @@ class Persona {
 	method puedeEntrarEnUna(carpa) = if ( self.quiereEntrar(carpa) ) carpa.dejaIngresar()
 	                                 else {}
 	                                 
-	method entrarEnUna(carpa) { if ( self.quiereEntrar(carpa) )
-	                               if ( carpa.dejaIngresar() )
-	                                   carpa.add(self)
+	method entrarEnUna(carpa) { if ( self.quiereEntrar(carpa) and carpa.dejaIngresar() )
+	                                 carpa.add(self)
 	                            else self.error ("No puede ingresar")
-                  }	
+   }	
 
 	method esPatriota(nacionalidad) = self.jarrasQueCompro().all { jarra => jarra.marca().paisDeFabricacion() == nacionalidad  } 
 	
