@@ -3,7 +3,7 @@ import jarras.*
 	
 	
 class Persona {
-	var property peso = 0
+	const property peso = 0
 	var property jarrasQueCompro = []
 	var property escuchaMusica 
 	var property aguante = 0
@@ -12,22 +12,22 @@ class Persona {
 	method estaEbrio() = self.cantidadAlcoholQueIngirio() * peso > aguante
 		
 	
-	method compraronJarraDe1LitroOMas() = self.jarrasQueCompro().all { jarra => jarra.capacidadDeLitros() >= 1}
+	method comproJarrasDe1LitroOMas() = self.jarrasQueCompro().all { jarra => jarra.capacidadDeLitros() >= 1}
 	
 	
 	method cantidadAlcoholQueIngirio() {
 		return jarrasQueCompro.sum { jarra => jarra.contenidoDeAlcohol() }
 	} 
 	
-	method leGustaEstaCerveza(marca) = true
+	method nacionalidad()
+	
+	method leGustaEstaCerveza(marca)
 	
 	method quiereEntrar(carpa) {
 		return self.leGustaEstaCerveza(carpa.marcaDeCerveza()) 
 		and self.cumplePreferenciaDeMusica(carpa)
-		and self.hayGentePar(carpa)	
 	}
 	
-	method hayGentePar(carpa) = true
 	
 	method cumplePreferenciaDeMusica(carpa) = if ( self.escuchaMusica() )  carpa.tienenBanda()
 	                                          else not carpa.tienenBanda()
@@ -36,35 +36,35 @@ class Persona {
 	method puedeEntrarEnUna(carpa) = if ( self.quiereEntrar(carpa) ) carpa.dejaIngresar()
 	                                 else {}
 	                                 
-	method entrarEnUna(carpa) { if ( self.quiereEntrar(carpa) and carpa.dejaIngresar() )
+	method entrarEnUna(carpa) { if ( self.puedeEntrarEnUna(carpa) )
 	                                 carpa.add(self)
 	                            else self.error ("No puede ingresar")
    }	
 
-	method esPatriota(nacionalidad) = self.jarrasQueCompro().all { jarra => jarra.marca().paisDeFabricacion() == nacionalidad  } 
+	method esPatriota() = jarrasQueCompro.all { jarra => jarra.marca().paisDeFabricacion() == self.nacionalidad() } 
 	
 }
 
-class PersonaConNacionalidadBelga inherits Persona {
-	var property nacionalidad = "Belgica"
+class PersonaBelga inherits Persona {
+	override method nacionalidad() = "Belgica"
+	
  	override method leGustaEstaCerveza(marca) = marca.contenidoDeLupulo() > 4
+ 		
  	
- 	override method hayGentePar(carpa) = if ( self.nacionalidad() == "Alemania" ) carpa.cantidadDeGenteEnLaCarpa() % 2 == 0
-	                            else {}  
+	                           
  }
  
- class PersonaConNacionalidadCheca inherits Persona {
- 	var property nacionalidad = "Rep.Checa"
+ class PersonaCheca inherits Persona {
+ 	override method nacionalidad() = "Rep.Checa"
+ 	
  	override method leGustaEstaCerveza(marca) = marca.graduacionDeCerveza() > 8
- 	
- 	override method hayGentePar(carpa) = if ( self.nacionalidad() == "Alemania" ) carpa.cantidadDeGenteEnLaCarpa() % 2 == 0
-	                            else {}
+ 	 	
  }
  
- class PersonaConNacionalidadAlemana inherits Persona {
- 	var property nacionalidad = "Alemania"
+ class PersonaAlemana inherits Persona {
+ 	override method nacionalidad() = "Alemania"
+ 	
  	override method leGustaEstaCerveza(marca) = true 
  	
- 	override method hayGentePar(carpa) = if ( self.nacionalidad() == "Alemania" ) carpa.cantidadDeGenteEnLaCarpa() % 2 == 0
-	                            else {}
+ 	override method quiereEntrar(carpa) = super(carpa) and carpa.cantidadDeGenteEnLaCarpa().even()
  }
